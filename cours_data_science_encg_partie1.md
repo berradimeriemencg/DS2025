@@ -5,6 +5,8 @@
 
 
 <img src="LOGO ENCG SETTAT.png" style="height:464px;margin-right:432px"/>
+<img src="image.png" style="height:464px;margin-right:432px"/>
+
 # PARTIE 1 : FONDAMENTAUX DE LA SCIENCE DES DONNÉES
 
 ---
