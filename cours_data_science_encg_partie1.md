@@ -237,6 +237,7 @@ Q2 (50% - Médiane): 16725908148.55
 Q3 (75%): 205854212632.48
 
 IQR: 203620332459.06 
+<img src="graphiques.png" style="height:464px;margin-right:432px"/>
 
 ### 2.2 Visualisation des Statistiques Descriptives
 
