@@ -3,6 +3,8 @@
 # Berradi meriem 
 ---
 
+
+<img src="LOGO ENCG SETTAT" style="height:464px;margin-right:432px"/>
 # PARTIE 1 : FONDAMENTAUX DE LA SCIENCE DES DONNÉES
 
 ---
