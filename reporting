@@ -1,0 +1,54 @@
+# 🔹 Génération automatique du reporting en Markdown
+def generate_report(df):
+    import os
+    
+    dataset_shape = df.shape
+    columns_list = df.columns.tolist()
+    missing_values = df.isnull().sum()
+    numeric_cols = df.select_dtypes(include=['number']).columns.tolist()
+    category_cols = df.select_dtypes(['category']).columns.tolist()
+    
+    report = f"# 📊 Reporting – Public Data Analysis\n\n"
+    
+    # Présentation générale
+    report += "## 1. Présentation du Dataset\n"
+    report += f"- **Nom du fichier :** {os.path.basename(csv_path)}\n"
+    report += f"- **Nombre d'observations :** {dataset_shape[0]}\n"
+    report += f"- **Nombre de colonnes / features :** {dataset_shape[1]}\n\n"
+    
+    # Colonnes
+    report += "## 2. Colonnes présentes\n"
+    report += f"{columns_list}\n\n"
+    
+    # Valeurs manquantes
+    report += "## 3. Valeurs manquantes par colonne\n"
+    report += f"{missing_values.to_dict()}\n\n"
+    
+    # Statistiques descriptives
+    report += "## 4. Statistiques descriptives (colonnes numériques)\n"
+    if numeric_cols:
+        report += f"{df[numeric_cols].describe().to_dict()}\n\n"
+    else:
+        report += "Aucune colonne numérique.\n\n"
+    
+    # Répartition des variables catégorielles
+    report += "## 5. Répartition des variables catégorielles\n"
+    for col in category_cols:
+        report += f"### {col}\n{df[col].value_counts().to_dict()}\n\n"
+    
+    # Conclusion
+    report += "## 6. Conclusion\n"
+    report += "Le dataset a été nettoyé et préparé. Il est prêt pour l'analyse exploratoire, la visualisation ou l'entraînement de modèles de Machine Learning.\n"
+    
+    return report
+
+# 🔹 Appel de la fonction pour générer le rapport
+report_markdown = generate_report(df)
+
+# 🔹 Affichage du rapport
+print(report_markdown)
+
+# 🔹 Optionnel : sauvegarder le rapport dans un fichier Markdown pour GitHub
+with open("report.md", "w", encoding="utf-8") as f:
+    f.write(report_markdown)
+print("\n✅ Le rapport a été sauvegardé dans 'report.md'.")
