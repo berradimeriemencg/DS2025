@@ -1,23 +1,56 @@
-import numpy as np # linear algebra
-import pandas as pd # data processing, CSV file I/O (e.g. pd.read_csv)
-
-# Input data files are available in the read-only "../input/" directory
-# For example, running this (by clicking run or pressing Shift+Enter) will list all files under the input directory
-
+# 🔹 Import des librairies
+import zipfile
 import os
-for dirname, _, filenames in os.walk('/kaggle/input'):
-    for filename in filenames:
-        print(os.path.join(dirname, filename))
 import pandas as pd
-import matplotlib.pyplot as plt
-from sklearn.model_selection import train_test_split
-from sklearn.preprocessing import LabelEncoder
-from sklearn.metrics import accuracy_score, classification_report, confusion_matrix
-from sklearn.ensemble import RandomForestClassifier
-from sklearn.svm import SVC
-from sklearn.linear_model import LogisticRegression
-from sklearn.tree import DecisionTreeClassifier
-import seaborn as sns
- df = pd.read_csv('/kaggle/input/social-media-mental-health-indicators-dataset/mental_health_social_media_dataset.csv')  
-from google.colab import drive
-drive.mount('/content/drive')
+from google.colab import files
+
+# 🔹 Étape 1 : Téléverser le fichier ZIP
+print("📂 Téléversez votre fichier ZIP contenant le dataset CSV")
+uploaded = files.upload()  # Choisir le fichier ZIP
+
+# 🔹 Récupérer le nom du fichier ZIP téléversé
+zip_file = list(uploaded.keys())[0]
+print(f"Fichier ZIP téléversé : {zip_file}")
+
+# 🔹 Étape 2 : Extraire le ZIP
+extract_folder = 'dataset'
+with zipfile.ZipFile(zip_file, 'r') as zip_ref:
+    zip_ref.extractall(extract_folder)
+print(f"Fichiers extraits dans : {extract_folder}")
+
+# 🔹 Vérifier les fichiers extraits
+extracted_files = os.listdir(extract_folder)
+print("Liste des fichiers extraits :", extracted_files)
+
+# 🔹 Étape 3 : Lire le CSV (prend le premier CSV trouvé)
+csv_file = [f for f in extracted_files if f.endswith('.csv')][0]
+csv_path = os.path.join(extract_folder, csv_file)
+data = pd.read_csv(csv_path)
+
+# 🔹 Étape 4 : Générer le compte rendu
+print("\n# 📊 Compte rendu du Dataset\n")
+
+# Informations générales
+print(f"**Nom du fichier CSV :** {csv_file}")
+print(f"**Nombre de lignes (observations) :** {data.shape[0]}")
+print(f"**Nombre de colonnes (features) :** {data.shape[1]}\n")
+
+# Aperçu des colonnes
+print("## 1. Informations générales des colonnes")
+print(data.info())
+
+# Statistiques descriptives
+print("\n## 2. Statistiques descriptives (colonnes numériques)")
+print(data.describe())
+
+# Valeurs manquantes
+print("\n## 3. Vérification des valeurs manquantes")
+print(data.isnull().sum())
+
+# Aperçu des diagnostics (si colonne 'diagnosis' existe)
+if 'diagnosis' in data.columns:
+    print("\n## 4. Répartition des diagnostics")
+    print(data['diagnosis'].value_counts())
+
+print("\n## ✅ Conclusion")
+print("Le dataset est prêt pour des analyses exploratoires, des visualisations et pour l'entraînement de modèles de Machine Learning.")
